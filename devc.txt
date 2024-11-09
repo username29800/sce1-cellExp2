@@ -1,0 +1,22 @@
+// devc.txt - dev calendar
+
+<purpose>
+1. create a cell-resembling application structure
+2. divide each feature by functions or files
+3. implement decentralized, parallel, and role-specific 'immune cell applications'
+
+<process>
+1. implement core data and code preservation (by archiving, compressing, encoding, and cryprography)
+2. implement self-remedial functions depending on 1
+3. decentralized, procedural, role-unified immune cell (optional)
+4. decentralized, procedural, role-specific immune cell (optional)
+5. decentralized, parallel, role-specific immune cell
+
+<structure and contents>
+1. flag (variable, plain text) - self-status indicator
+2. allowlist (plain text) - allowed file list, automatically generated at cell initialization
+3. blocklist (plain text) - files that activate self-destruction when found
+4. origin (zip archive) - core module storage, encoded, archived, compressed
+5. utils (python with def expr) - popular core functions such as flag and allowlist
+6. action (python with def expr) - functions for every module
+7. main (python, server-like structure) -
