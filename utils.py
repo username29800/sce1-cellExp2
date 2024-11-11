@@ -1,10 +1,36 @@
 import zipfile, shutil, os, sys
 
 # section 1: basics
+
+def equal_str(list_a):
+    for i in range(len(list_a)):
+        list_a[i] = list_a[i].rstrip('\n')
+    return list_a
+
 # 1. flags
 
 def get_flag(flag_file, flag_line):
     flag = list_flag(flag_file)[flag_line - 1]
+    return flag
+
+def format_flag(flag_file, flag_line):
+    flag = get_flag(flag_file, flag_line)
+    flag_f = ''
+    if flag[:7] == "flag = ":
+        flag_f = flag[7:]
+        flag_f = flag_f.rstrip('\n')
+        return flag_f
+    else:
+        return ''
+
+def auto_flag(flag_file):
+    flaglines = list_flag(flag_file)
+    flag_line = 0
+    for i in range(len(flaglines)):
+        if flaglines[i][:7] == 'flag = ':
+            flag_line = i + 1
+            break
+    flag = format_flag(flag_file, flag_line)
     return flag
 
 def set_flag(flag_file, flag):
@@ -13,10 +39,10 @@ def set_flag(flag_file, flag):
     for i in range(len(flaglines)):
         if flaglines[i][:7] == 'flag = ':
             preflag = flaglines[:i]
-            afflag = flaglines[i:]
-            flaglines = preflag + [f'flag = {flag}\n'] + afflag
-            flags = open(flag_file, 'w')
-            flags.writelines(flaglines)
+            afflag = flaglines[i + 1:]
+    flaglines = preflag + [f'flag = {flag}\n'] + afflag
+    flags = open(flag_file, 'w')
+    flags.writelines(flaglines)
     return 0
 
 def list_flag(flag_file):
@@ -83,6 +109,39 @@ def write_del_all_from_xll(al_file, str_del_list):
     ok_write = open(al_file, 'w')
     ok_write.writelines(list_del)
     return 0
+
+def xll_find_match(al_file, scan_dir):
+    xll = get_xll(al_file)
+    xll_list = equal_str(xll)
+    files_current = os.listdir(scan_dir)
+    list_match = []
+    for target in xll_list:
+        if target in files_current:
+            list_match.append(target)
+    return list_match
+
+def xll_find_missing(al_file, scan_dir):
+    xll = get_xll(al_file)
+    xll_list = equal_str(xll)
+    files_current = os.listdir(scan_dir)
+    list_missing = []
+    for target in xll_list:
+        if not(target in files_current):
+            list_missing.append(target)
+    return list_missing
+
+def xll_find_all(al_file, scan_dir):
+    xll = get_xll(al_file)
+    xll_list = equal_str(xll)
+    files_current = os.listdir(scan_dir)
+    list_match = []
+    list_missing = []
+    for target in xll_list:
+        if target in files_current:
+            list_match.append(target)
+        else:
+            list_missing.append(target)
+    return [list_match, list_missing]
 
 # section 3: origin
 # 3. origin
