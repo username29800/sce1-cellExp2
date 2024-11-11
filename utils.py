@@ -101,7 +101,11 @@ def pre_pack_org(org_dir, file_list):
     return 0
 
 def one_pack_org(org_dir, file_list):
+    files_current = os.listdir()
+    if f'{org_dir}.zip' in files_current:
+        shutil.move(f'{org_dir}.zip', f'{org_dir}_backup')
+    os.mkdir(org_dir)
     pre_pack_org(org_dir, file_list)
     pack_org(org_dir)
+    shutil.rmtree(org_dir)
     return 0
-
