@@ -1,0 +1,17 @@
+.git
+.idea
+allow.txt
+devc.txt
+docs_easy.md
+keepalive.py
+lc
+main.py
+origin.zip
+packager.py
+setup.py
+status.txt
+test1.txt
+utils.py
+utils_docs.md
+venv
+__pycache__
