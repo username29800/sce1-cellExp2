@@ -9,7 +9,7 @@ if flag == 'inactive':
 
 #allowlist 스캔 및 복구
 al_filename = utils.auto_find('status.txt', 'al')
-check_missing = utils.xll_find_missing(al_filename, '.')
+check_missing = utils.xll_find_missing(al_filename, '..')
 if check_missing != []:
     utils.set_flag('status.txt', 'repair')
     org_filename = utils.auto_find('status.txt', 'org')
@@ -21,7 +21,7 @@ if check_missing != []:
 
 
 #allowlist 외부 파일 스캔 및 삭제
-check_unknown = utils.xll_find_unknown(al_filename, '.')
+check_unknown = utils.xll_find_unknown(al_filename, '..')
 del_failed = []
 if check_unknown != []:
     utils.set_flag('status.txt', 'repair')

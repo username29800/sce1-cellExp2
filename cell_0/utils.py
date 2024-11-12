@@ -205,3 +205,15 @@ def load_from_org(config_file):
     shutil.move(f'{origin_filename[:-4]}/{i}', i)
   shutil.rmtree(origin_filename[:-4])
   return 0
+
+
+# section 4: cell
+# 4. cell
+
+def get_cell_idx(path):
+  cell = os.getcwd()
+  cell_num = cell.split('_')[1]
+  cell_num = int(cell_num)
+  return cell_num
+
+def is_cell_in_root(cell):
