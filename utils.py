@@ -33,6 +33,25 @@ def auto_flag(flag_file):
     flag = format_flag(flag_file, flag_line)
     return flag
 
+def format_auto(flag_file, flag_line, find_str):
+    flag = get_flag(flag_file, flag_line)
+    flag_f = ''
+    if flag.split('=')[0].rstrip(' ') == find_str:
+        flag_f = flag.split('=')[1].lstrip(' ')
+        flag_f = flag_f.rstrip('\n')
+        return flag_f
+    else:
+        return ''
+def auto_find(flag_file, find_str):
+    flaglines = list_flag(flag_file)
+    flag_line = 0
+    for i in range(len(flaglines)):
+        if flaglines[i].split('=')[0].rstrip(' ') == find_str:
+            flag_line = i + 1
+            break
+    flag = format_auto(flag_file, flag_line, find_str)
+    return flag
+
 def set_flag(flag_file, flag):
     flaglines = list_flag(flag_file)
     #split file by flag line
@@ -130,6 +149,16 @@ def xll_find_missing(al_file, scan_dir):
             list_missing.append(target)
     return list_missing
 
+def xll_find_unknown(scan_dir, al_file):
+    xll = get_xll(al_file)
+    xll_list = equal_str(xll)
+    files_current = os.listdir(scan_dir)
+    list_missing = []
+    for target in files_current:
+        if not(target in xll_list):
+            list_missing.append(target)
+    return list_missing
+
 def xll_find_all(al_file, scan_dir):
     xll = get_xll(al_file)
     xll_list = equal_str(xll)
@@ -167,4 +196,12 @@ def one_pack_org(org_dir, file_list):
     pre_pack_org(org_dir, file_list)
     pack_org(org_dir)
     shutil.rmtree(org_dir)
+    return 0
+
+def load_from_org(config_file):
+    origin_filename = auto_find(config_file, 'org')
+    unpack_org(origin_filename)
+    for i in os.listdir(origin_filename[:-4]):
+        shutil.move(f'{origin_filename[:-4]}/{i}', i)
+    shutil.rmtree(origin_filename[:-4])
     return 0
