@@ -210,10 +210,14 @@ def load_from_org(config_file):
 # section 4: cell
 # 4. cell
 
-def get_cell_idx(path):
+def get_cell_idx():
   cell = os.getcwd()
   cell_num = cell.split('_')[1]
   cell_num = int(cell_num)
   return cell_num
 
 def is_cell_in_root(cell):
+  if cell in os.listdir('..'):
+    return True
+  else:
+    return False
