@@ -224,7 +224,7 @@ def pack_org(org_dir):
 
 def pre_pack_org(org_dir, file_list):
   for i in file_list:
-    shutil.move(i, f'{org_dir}/{i}')
+    shutil.copy2(i, f'{org_dir}/{i}')
   return 0
 
 
@@ -238,6 +238,16 @@ def one_pack_org(org_dir, file_list):
   shutil.rmtree(org_dir)
   return 0
 
+def one_pack_new(org_dir, dst_arc, file_list):
+  files_current = os.listdir()
+  if f'{org_dir}.zip' in files_current:
+    shutil.move(f'{org_dir}.zip', f'{org_dir}_backup')
+  os.mkdir(org_dir)
+  pre_pack_org(org_dir, file_list)
+  shutil.make_archive(dst_arc, 'zip', os.getcwd(), org_dir)
+  shutil.rmtree(org_dir)
+  return 0
+
 
 def load_from_org(config_file):
   origin_filename = auto_find(config_file, 'org')
@@ -245,6 +255,13 @@ def load_from_org(config_file):
   for i in os.listdir(origin_filename[:-4]):
     shutil.move(f'{origin_filename[:-4]}/{i}', i)
   shutil.rmtree(origin_filename[:-4])
+  return 0
+
+def load_from_find(find):
+  unpack_org(find)
+  for i in os.listdir(find[:-4]):
+    shutil.move(f'{find[:-4]}/{i}', i)
+  shutil.rmtree(find[:-4])
   return 0
 
 
