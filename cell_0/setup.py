@@ -1,7 +1,8 @@
-import utils, os
+import utils, os, sys
 config_file = 'status.txt'
 # 1. unpack origin into cwd
-utils.load_from_org(config_file)
+if len(sys.argv) > 1 and sys.argv[1] == 'init':
+    utils.load_from_org(config_file)
 # 2. generate allowlist
 allow_list = open('allow.txt', 'w')
 files_current = os.listdir()

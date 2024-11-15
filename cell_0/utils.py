@@ -1,5 +1,6 @@
 import zipfile, shutil, os, sys
 
+
 # section 1: basics
 
 
@@ -97,6 +98,7 @@ def list_flag(flag_file):
 def get_xll(al_file):  # get AllowList
   ok_file = open(al_file, 'r')
   ok_list = ok_file.readlines()
+  ok_list = equal_str(ok_list)
   ok_file.close()
   return ok_list
 
@@ -230,23 +232,46 @@ def pre_pack_org(org_dir, file_list):
 
 def one_pack_org(org_dir, file_list):
   files_current = os.listdir()
-  if f'{org_dir}.zip' in files_current:
-    shutil.move(f'{org_dir}.zip', f'{org_dir}_backup')
+  if f'origin.zip' in files_current:
+    shutil.move(f'origin.zip', f'origin_backup.zip')
   os.mkdir(org_dir)
   pre_pack_org(org_dir, file_list)
   pack_org(org_dir)
   shutil.rmtree(org_dir)
   return 0
 
+
 def one_pack_new(org_dir, dst_arc, file_list):
   files_current = os.listdir()
-  if f'{org_dir}.zip' in files_current:
-    shutil.move(f'{org_dir}.zip', f'{org_dir}_backup')
+  backup_number = 0
+  file_check = [f'{org_dir}_backup_{backup_number}', f'{dst_arc}_backup_{backup_number}.zip']
+  file_type = ['', '.zip']
+  for i in file_check:
+    for j in file_type:
+      while f'{org_dir}_backup_{backup_number}{j}' in files_current:
+        backup_number += 1
+  if org_dir in files_current:
+    shutil.move(org_dir, f'{org_dir}_backup_{backup_number}')
+  if f'{dst_arc}.zip' in files_current:
+    shutil.move(f'{dst_arc}.zip', f'{dst_arc}_backup_{backup_number}.zip')
   os.mkdir(org_dir)
   pre_pack_org(org_dir, file_list)
-  shutil.make_archive(dst_arc, 'zip', os.getcwd(), org_dir)
+  shutil.make_archive(dst_arc, 'zip', org_dir, os.getcwd())
   shutil.rmtree(org_dir)
   return 0
+
+
+def one_pack_64(dst_arc, file_list):
+  backup_number = 0
+  files_current = os.listdir()
+  while f'{dst_arc}_backup_{backup_number}.zip' in files_current:
+    backup_number += 1
+  if f'{dst_arc}.zip' in files_current:
+    shutil.move(f'{dst_arc}.zip', f'{dst_arc}_backup_{backup_number}.zip')
+  arch = zipfile.ZipFile(f'{dst_arc}.zip', 'w')
+  for wfile in file_list:
+    arch.write(wfile)
+  arch.close()
 
 
 def load_from_org(config_file):

@@ -3,10 +3,12 @@ import utils, sys
 def pack():
     file_list = ['utils.py', 'main.py', 'packager.py', 'keepalive.py', 'status.txt']
     try:
-        utils.one_pack_org('pre_origin', file_list)
+        utils.one_pack_64('origin', file_list)
+        #utils.one_pack_new('origin', 'origin', file_list)
         return 0
-    except:
-        return 1
+    except Exception as e:
+        print(e)
+        raise e
 
 def pack_pathogen():
     pass
@@ -14,7 +16,11 @@ def pack_pathogen():
 def pack_allowlist():
     allow_file = utils.auto_find('status.txt', 'al')
     allow_list = utils.get_xll(allow_file)
-    utils.one_pack_new('appdata', 'appdata', allow_list)
+    for i in ['appdata', '__pycache__']:
+        while i in allow_list:
+            del_idx = allow_list.index(i)
+            allow_list = allow_list[:del_idx] + allow_list[del_idx + 1:]
+    utils.one_pack_64('appdata', allow_list)
     return 0
 
 def main():
@@ -25,3 +31,5 @@ def main():
         pack_allowlist()
     elif args == 'ps': # pathogen sample
         pack_pathogen()
+
+main()
