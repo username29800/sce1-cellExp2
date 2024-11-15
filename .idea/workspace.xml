@@ -4,16 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9e8fa353-a289-4150-adb5-1a8e567e172b" name="Changes" comment="Changes">
-      <change afterPath="$PROJECT_DIR$/cell_0/util2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sce1-cellExp2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sce1-cellExp2.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cell_0/div.py" beforeDir="false" afterPath="$PROJECT_DIR$/cell_0/div.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cell_0/keepalive.py" beforeDir="false" afterPath="$PROJECT_DIR$/cell_0/keepalive.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cell_0/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/cell_0/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cell_0/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/cell_0/utils.py" afterDir="false" />
-    </list>
+    <list default="true" id="9e8fa353-a289-4150-adb5-1a8e567e172b" name="Changes" comment="Changes" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -35,9 +26,9 @@
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 0
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="2oixwO1MfQk7LZT94ZChunGuopy" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
