@@ -52,6 +52,17 @@ def auto_find(flag_file, find_str):
   flag = format_auto(flag_file, flag_line, find_str)
   return flag
 
+def set_find(flag_file, find_str, set_str):
+  flaglines = list_flag(flag_file)
+  for i in range(len(flaglines)):
+    if flaglines[i].split('=')[0].rstrip(' ') == find_str:
+      preflag = flaglines[:i]
+      afflag = flaglines[i + 1:]
+  flaglines = preflag + [f'{find_str} = {set_str}\n'] + afflag
+  flags = open(flag_file, 'w')
+  flags.writelines(flaglines)
+  return 0
+
 def set_flag(flag_file, flag):
   flaglines = list_flag(flag_file)
   #split file by flag line
