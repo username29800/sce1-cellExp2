@@ -5,13 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9e8fa353-a289-4150-adb5-1a8e567e172b" name="Changes" comment="Changes">
+      <change afterPath="$PROJECT_DIR$/post/dir_keepalive" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cell_0/allow.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cell_0/allow.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cell_0/appdata.zip" beforeDir="false" afterPath="$PROJECT_DIR$/cell_0/appdata.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cell_0/appdata_backup_0.zip" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/cell_0/keepalive.py" beforeDir="false" afterPath="$PROJECT_DIR$/cell_0/keepalive.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cell_0/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/cell_0/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cell_0/origin.zip" beforeDir="false" afterPath="$PROJECT_DIR$/cell_0/origin.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cell_0/origin_backup_0.zip" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/cell_0/packager.py" beforeDir="false" afterPath="$PROJECT_DIR$/cell_0/packager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cell_0/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/cell_0/utils.py" afterDir="false" />
     </list>

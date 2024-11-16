@@ -1,4 +1,4 @@
-import utils, sys
+import utils, sys, shutil, os
 #origin packager
 def pack(backup = True):
     file_list = ['utils.py', 'main.py', 'packager.py', 'keepalive.py', 'status.txt']
@@ -10,9 +10,11 @@ def pack(backup = True):
         print(e)
         raise e
 
+# pathogen sample packager (apoptosis, self-deletion-and-archiving)
 def pack_pathogen(backup = True):
     pass
 
+# appdata packager - allowlist matches packager
 def pack_allowlist(backup = True):
     allow_file = utils.auto_find('status.txt', 'al')
     allow_list = utils.get_xll(allow_file)
@@ -23,6 +25,16 @@ def pack_allowlist(backup = True):
     utils.one_pack_64('appdata', allow_list, backup)
     return 0
 
+def pack_comm(file_list):
+    backup_number = 0
+    files_current = os.listdir()
+    cell_name = 'cell_' + str(utils.get_cell_idx())
+    while f't_{cell_name}_{backup_number}.zip' in files_current:
+        backup_number += 1
+    arc_name = f't_{cell_name}_{backup_number}'
+    utils.one_pack_64(arc_name, file_list, False)
+    shutil.copy(arc_name + '.zip', f'../post/{arc_name}.zip')
+
 def main(backup = True):
     args = sys.argv[1]
     if args == 'org' or args == '': # normal
@@ -31,11 +43,15 @@ def main(backup = True):
         pack_allowlist(backup)
     elif args == 'ps': # pathogen sample
         pack_pathogen(backup)
+    elif args == 'tr': # file transmission
+        pack_comm(sys.argv[2:])
 
 if len(sys.argv) > 2:
     if sys.argv[2] in ['1', 'True']:
         main()
     elif sys.argv[2] in ['0', 'False']:
         main(False)
+    else:
+        main()
 elif len(sys.argv) > 1:
     main()
