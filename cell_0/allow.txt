@@ -1,11 +1,9 @@
 allow.txt
 appdata.zip
-appdata_backup_0.zip
 div.py
 keepalive.py
 main.py
 origin.zip
-origin_backup_0.zip
 packager.py
 setup.py
 status.txt

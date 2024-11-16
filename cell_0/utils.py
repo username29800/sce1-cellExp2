@@ -214,8 +214,10 @@ def xll_find_all(al_file, scan_dir):
 # 3. origin
 
 
-def unpack_org(org_file):
-  shutil.unpack_archive(org_file, os.getcwd(), 'zip')
+def unpack_org(org_file, ext = '.zip'):
+  org_arc = zipfile.ZipFile(org_file, 'r')
+  org_arc.extractall(org_file[:-len(ext)])
+  org_arc.close()
   return 0
 
 
@@ -241,7 +243,7 @@ def one_pack_org(org_dir, file_list):
   return 0
 
 
-def one_pack_new(org_dir, dst_arc, file_list):
+def one_pack_new(org_dir, dst_arc, file_list, backup = True, remove_dir = True):
   files_current = os.listdir()
   backup_number = 0
   file_check = [f'{org_dir}_backup_{backup_number}', f'{dst_arc}_backup_{backup_number}.zip']
@@ -250,23 +252,24 @@ def one_pack_new(org_dir, dst_arc, file_list):
     for j in file_type:
       while f'{org_dir}_backup_{backup_number}{j}' in files_current:
         backup_number += 1
-  if org_dir in files_current:
+  if (org_dir in files_current) and backup:
     shutil.move(org_dir, f'{org_dir}_backup_{backup_number}')
-  if f'{dst_arc}.zip' in files_current:
+  if (f'{dst_arc}.zip' in files_current) and backup:
     shutil.move(f'{dst_arc}.zip', f'{dst_arc}_backup_{backup_number}.zip')
   os.mkdir(org_dir)
   pre_pack_org(org_dir, file_list)
   shutil.make_archive(dst_arc, 'zip', org_dir, os.getcwd())
-  shutil.rmtree(org_dir)
+  if remove_dir:
+    shutil.rmtree(org_dir)
   return 0
 
 
-def one_pack_64(dst_arc, file_list):
+def one_pack_64(dst_arc, file_list, backup = True):
   backup_number = 0
   files_current = os.listdir()
   while f'{dst_arc}_backup_{backup_number}.zip' in files_current:
     backup_number += 1
-  if f'{dst_arc}.zip' in files_current:
+  if (f'{dst_arc}.zip' in files_current) and backup:
     shutil.move(f'{dst_arc}.zip', f'{dst_arc}_backup_{backup_number}.zip')
   arch = zipfile.ZipFile(f'{dst_arc}.zip', 'w')
   for wfile in file_list:

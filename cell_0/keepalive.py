@@ -10,11 +10,7 @@ al_filename = utils.auto_find('status.txt', 'al')
 check_missing = utils.xll_find_missing(al_filename, '..')
 if check_missing != []:
     utils.set_flag('status.txt', 'repair')
-    org_filename = utils.auto_find('status.txt', 'org')
-    org_prep = utils.unpack_org(org_filename)
-    for move_file in check_missing:
-        shutil.move(f'{org_filename[:-4]}/{move_file}', move_file)
-    shutil.rmtree(org_filename[:-4])
+    utils.load_from_org('status.txt')
     utils.set_flag('status.txt', 'active')
 
 #allowlist 외부 파일 스캔 및 삭제
