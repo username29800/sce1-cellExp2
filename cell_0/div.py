@@ -1,7 +1,12 @@
-import utils, os, shutil
+import utils, os, shutil, sys
+
+args = ''
+if len(sys.argv):
+    args = sys.argv[1]
+
 
 flag = utils.auto_flag('status.txt')
-if flag == 'inactive':
+if (flag == 'inactive') or (args == '-f'): # add force option
     # mkdir within rootdir
     cell_num = utils.get_cell_idx()
     cell_name = 'cell_' + str(cell_num)
