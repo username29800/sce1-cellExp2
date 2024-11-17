@@ -12,8 +12,8 @@ if (flag == 'inactive') or (args == '-f'): # add force option
     cell_name = CELLNAMEPREFIX + str(cell_num)
     while utils.is_cell_in_root(cell_name):
         cell_num += 1
-        cell_name = cell_name[:-1] + str(cell_num)
-    os.mkdir('../' + CELLNAMEPREFIX + str(cell_num))
+        cell_name = CELLNAMEPREFIX + str(cell_num)
+    os.mkdir('../' + cell_name)
     # copy contents
     for source in os.listdir():
         if source != '__pycache__':

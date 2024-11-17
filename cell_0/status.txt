@@ -23,3 +23,6 @@ out = out_
 
 defaultname = cell_t0_
 // defaultname = CELLNAMEPREFIX
+
+outcontent = positive
+// outcontent = a line of string to transmit when requested
