@@ -9,6 +9,15 @@ def equal_str(list_a):
     list_a[i] = list_a[i].rstrip('\n')
   return list_a
 
+def substr(str_origin, str_sub):
+  for i in range(len(str_sub)):
+    if str_sub[i] != str_origin[i]:
+      str_origin = str_origin[i:]
+      break
+    if i == len(str_sub) - 1:
+      str_origin = str_origin[i + 1:]
+  return str_origin
+
 
 # 1. flags
 
@@ -60,6 +69,7 @@ def auto_find(flag_file, find_str):
       break
   flag = format_auto(flag_file, flag_line, find_str)
   return flag
+
 
 def set_find(flag_file, find_str, set_str):
   flaglines = list_flag(flag_file)
@@ -296,13 +306,17 @@ def load_from_find(find):
 # section 4: cell
 # 4. cell
 
+CELLNAMEPREFIX = auto_find('status.txt', 'defaultname')
+
 
 def get_cell_idx(path=None):
   entry_dir = os.getcwd()
   if path:
     os.chdir(path)
   cell = os.getcwd()
-  cell_num = cell.split('_')[1]
+  cell = cell.split('/')[-1]
+  cell = cell.split('\\')[-1]
+  cell_num = substr(cell, CELLNAMEPREFIX)
   cell_num = int(cell_num)
   os.chdir(entry_dir)
   return cell_num

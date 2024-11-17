@@ -1,4 +1,6 @@
 import utils, sys, shutil, os
+from main import CELLNAMEPREFIX
+
 #origin packager
 def pack(backup = True):
     file_list = ['utils.py', 'main.py', 'packager.py', 'keepalive.py', 'status.txt']
@@ -28,7 +30,7 @@ def pack_allowlist(backup = True):
 def pack_comm(file_list):
     backup_number = 0
     files_current = os.listdir()
-    cell_name = 'cell_' + str(utils.get_cell_idx())
+    cell_name = CELLNAMEPREFIX + str(utils.get_cell_idx())
     while f't_{cell_name}_{backup_number}.zip' in files_current:
         backup_number += 1
     arc_name = f't_{cell_name}_{backup_number}'
