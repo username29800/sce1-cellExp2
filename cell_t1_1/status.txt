@@ -1,0 +1,31 @@
+// status.txt - sce1-cellExp2 cell config file
+
+flag = active
+// flag = inactive(can be copied), active(should not copy), dead(malfunction), infected(malfunctioning OR pathogen detected), repair (repairing)
+
+al = allow.txt
+// al = allowlist filename
+
+bl = block.txt
+// bl = blocklist filename
+
+org = origin.zip
+// org = core files
+
+inf = init.zip
+// inf = init utils
+
+util = utils.py
+// util = local library or functions with docs
+
+out = out_
+// out = output filename prefix
+
+defaultname = cell_t1_
+// defaultname = CELLNAMEPREFIX
+
+outcontent = positive
+// outcontent = a line of string to transmit when requested
+
+alsys = ../alsys.txt
+// alsys = system-wide allowlist
