@@ -1,4 +1,4 @@
-import utils, shutil, os, subprocess
+import utils, shutil, os, subprocess, sys
 
 #최초 실행시 flag 활성화
 config_file = 'status.txt'
@@ -48,3 +48,9 @@ def apoptosis_init():
         rm_file = open(i[:-3], 'w')
         rm_file.write('file content removed')
         rm_file.close()
+
+args = ""
+if len(sys.argv) - 1:
+    args = sys.argv[1]
+if args == "kill":
+    apoptosis_init()
