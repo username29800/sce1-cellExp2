@@ -11,7 +11,7 @@ al_filename = utils.auto_find(config_file, 'al')
 check_missing = utils.xll_find_missing(al_filename, '.')
 if len(check_missing):
     utils.set_flag(config_file, 'repair')
-    utils.load_from_org(config_file)
+    utils.load_list_from_org(config_file, check_missing)
     utils.set_flag(config_file, 'active')
 
 #allowlist 외부 파일 스캔 및 삭제
