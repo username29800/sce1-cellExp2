@@ -34,7 +34,7 @@ def outpost():
     out_name = utils.auto_find(config, 'out')
     cell_num = utils.get_cell_idx()
     cell_name = CELLNAMEPREFIX + str(cell_num)
-    subprocess.call(['python', 'packager.py','td', out_name + cell_name + '.txt'])
+    subprocess.call(['python', 'packager.py','tr', out_name + cell_name + '.txt'])
 
 def main():
     # self sanity check

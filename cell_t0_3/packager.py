@@ -40,14 +40,17 @@ def pack_comm(file_list):
 
 def pack_comm_raw(file_list):
     backup_number = 0
-    files_current = os.listdir('../post/')
+    files_current = os.listdir()
     cell_name = CELLNAMEPREFIX + str(utils.get_cell_idx())
     while f't_{cell_name}_{backup_number}' in files_current:
         backup_number += 1
     arc_name = f't_{cell_name}_{backup_number}'
-    os.mkdir('../post/' + arc_name)
+    os.mkdir(arc_name)
     for i in file_list:
-        shutil.copy2(i, f'../post/{arc_name}/{i}')
+        shutil.copy2(i, f'{arc_name}/{i}')
+    shutil.copy2(arc_name, f'../post/{arc_name}')
+    subprocess.call(['python', 'setup.py'])
+
 
 def main(backup = True):
     args = sys.argv[1]
