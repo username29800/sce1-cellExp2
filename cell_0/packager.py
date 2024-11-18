@@ -36,7 +36,8 @@ def pack_comm(file_list):
     arc_name = f't_{cell_name}_{backup_number}'
     utils.one_pack_64(arc_name, file_list, False)
     shutil.copy(arc_name + '.zip', f'../post/{arc_name}.zip')
-    utils.write_add_to_xll(arc_name + '.zip')
+    al_file = utils.auto_find('config.txt', 'al')
+    utils.write_add_to_xll(al_file, arc_name + '.zip')
 
 def pack_comm_raw(file_list):
     backup_number = 0
