@@ -1,3 +1,232 @@
+filename: allow.txt
+allow.txt
+appdata.zip
+div.py
+keepalive.py
+main.py
+origin.zip
+packager.py
+setup.py
+status.txt
+t_cell_0_0.zip
+utils.py
+__pycache__
+
+filename: div.py
+import utils, os, shutil, sys
+from main import CELLNAMEPREFIX
+
+args = ''
+if len(sys.argv):
+    args = sys.argv[1]
+
+flag = utils.auto_flag('status.txt')
+if (flag == 'inactive') or (args == '-f'): # add force option
+    # mkdir within rootdir
+    cell_num = utils.get_cell_idx()
+    cell_name = CELLNAMEPREFIX + str(cell_num)
+    while utils.is_cell_in_root(cell_name):
+        cell_num += 1
+        cell_name = CELLNAMEPREFIX + str(cell_num)
+    os.mkdir('../' + cell_name)
+    # copy contents
+    for source in os.listdir():
+        if source != '__pycache__':
+            shutil.copy2(source, f'../{CELLNAMEPREFIX}{cell_num}/{source}')
+filename: keepalive.py
+import utils, shutil, os, subprocess
+
+#최초 실행시 flag 활성화
+config_file = 'status.txt'
+flag = utils.auto_flag(config_file)
+if flag == 'inactive':
+    utils.set_flag(config_file, 'active')
+
+#allowlist 스캔 및 복구
+al_filename = utils.auto_find(config_file, 'al')
+check_missing = utils.xll_find_missing(al_filename, '.')
+if len(check_missing):
+    utils.set_flag(config_file, 'repair')
+    utils.load_from_org(config_file)
+    utils.set_flag(config_file, 'active')
+
+#allowlist 외부 파일 스캔 및 삭제
+check_unknown = utils.xll_find_unknown(al_filename, '.')
+del_failed = []
+if len(check_unknown):
+    utils.set_flag(config_file, 'repair')
+    for del_file in check_unknown:
+        try:
+            os.remove(del_file)
+        except:
+            try:
+                shutil.rmtree(del_file)
+            except Exception as e:
+                del_failed.append(del_file)
+                raise e
+    utils.set_flag(config_file, 'active')
+
+#apoptosis
+def apoptosis_init():
+    #step 1. archive appdata and pathogen
+    subprocess.call('python packager.py ad 0')
+    subprocess.call('python packager.py ps 0')
+
+    #step 2. make executables inactive
+    utils.set_flag(config_file, 'dead')
+    files_list = os.listdir()
+    delpy_list = []
+    for i in files_list:
+        if i[-3:] == '.py':
+            delpy_list.append(i)
+    for i in delpy_list:
+        os.rename(i, i[:-3])
+        rm_file = open(i[:-3], 'w')
+        rm_file.write('file content removed')
+        rm_file.close()
+
+filename: main.py
+# this script will serve as a server, transmitting str when requested by http
+# 1. pre-boot POST routine
+# core modules loader
+import utils, sys, os, subprocess
+config = 'status.txt' # set config file
+CELLNAMEPREFIX = utils.auto_find(config, 'defaultname')
+
+# self integrity check
+os.system('python keepalive.py')
+
+# check availability
+def avail():
+    avail = utils.auto_flag(config)
+    if avail != "active":
+        # put error logging code here
+        exit()
+    # backup origin
+    subprocess.call('packager.py org 0')
+
+# write output
+# output contains current date/time, source, destination, and outcontent
+def wrtout():
+    out_name = utils.auto_find(config, 'out')
+    cell_num = utils.get_cell_idx()
+    cell_name = CELLNAMEPREFIX + cell_num
+    out_file = open(out_name + cell_name + '.txt', 'w')
+    wrtstr = utils.auto_find(config, 'outcontent')
+    wrtstr += '\n'
+    out_file.write(wrtstr)
+    out_file.close()
+
+# return output
+def outpost():
+    out_name = utils.auto_find(config, 'out')
+    cell_num = utils.get_cell_idx()
+    cell_name = CELLNAMEPREFIX + cell_num
+    subprocess.call('packager.py tr ' + out_name + cell_name)
+filename: packager.py
+import utils, sys, shutil, os
+from main import CELLNAMEPREFIX
+
+#origin packager
+def pack(backup = True):
+    file_list = ['utils.py', 'main.py', 'packager.py', 'keepalive.py', 'status.txt']
+    try:
+        utils.one_pack_64('origin', file_list, backup)
+        #utils.one_pack_new('origin', 'origin', file_list)
+        return 0
+    except Exception as e:
+        print(e)
+        raise e
+
+# pathogen sample packager (apoptosis, self-deletion-and-archiving)
+def pack_pathogen(backup = True):
+    pass
+
+# appdata packager - allowlist matches packager
+def pack_allowlist(backup = True):
+    allow_file = utils.auto_find('status.txt', 'al')
+    allow_list = utils.get_xll(allow_file)
+    for i in ['appdata', '__pycache__']:
+        while i in allow_list:
+            del_idx = allow_list.index(i)
+            allow_list = allow_list[:del_idx] + allow_list[del_idx + 1:]
+    utils.one_pack_64('appdata', allow_list, backup)
+    return 0
+
+def pack_comm(file_list):
+    backup_number = 0
+    files_current = os.listdir()
+    cell_name = CELLNAMEPREFIX + str(utils.get_cell_idx())
+    while f't_{cell_name}_{backup_number}.zip' in files_current:
+        backup_number += 1
+    arc_name = f't_{cell_name}_{backup_number}'
+    utils.one_pack_64(arc_name, file_list, False)
+    shutil.copy(arc_name + '.zip', f'../post/{arc_name}.zip')
+
+def main(backup = True):
+    args = sys.argv[1]
+    if args == 'org' or args == '': # normal
+        pack(backup)
+    elif args == 'ad': # appdata
+        pack_allowlist(backup)
+    elif args == 'ps': # pathogen sample
+        pack_pathogen(backup)
+    elif args == 'tr': # file transmission
+        pack_comm(sys.argv[2:])
+
+if len(sys.argv) > 2:
+    if sys.argv[2] in ['1', 'True']:
+        main()
+    elif sys.argv[2] in ['0', 'False']:
+        main(False)
+    else:
+        main()
+elif len(sys.argv) > 1:
+    main()
+filename: setup.py
+import utils, os, sys
+config_file = 'status.txt'
+# 1. unpack origin into cwd
+if len(sys.argv) > 1 and sys.argv[1] == 'init':
+    utils.load_from_org(config_file)
+# 2. generate allowlist
+allow_list = open('allow.txt', 'w')
+files_current = os.listdir()
+for i in range(len(files_current)):
+    files_current[i] += '\n'
+allow_list.writelines(files_current)
+allow_list.close()
+# 3. fetch blocklist - needed
+filename: status.txt
+// status.txt - sce1-cellExp2 cell config file
+
+flag = active
+// flag = inactive(can be copied), active(should not copy), dead(malfunction), infected(malfunctioning OR pathogen detected), repair (repairing)
+
+al = allow.txt
+// al = allowlist filename
+
+bl = block.txt
+// bl = blocklist filename
+
+org = origin.zip
+// org = core files
+
+inf = init.zip
+// inf = init utils
+
+util = utils.py
+// util = local library or functions with docs
+
+out = out_
+// out = output filename prefix
+
+defaultname = cell_t0_
+// defaultname = CELLNAMEPREFIX
+
+outcontent = positive
+// outcontent = a line of string to transmit when requested
+filename: utils.py
 import zipfile, shutil, os, sys
 
 
@@ -126,7 +355,8 @@ def write_add_all_to_xll(al_file, str_write_list):
   return 0
 
 
-def list_add_to_xll(al_file, str_write):  # for internal use. 코드 내에서 list initializer로 사용
+def list_add_to_xll(
+    al_file, str_write):  # for internal use. 코드 내에서 list initializer로 사용
   ok_list = get_xll(al_file)
   ok_list.append(f'{str_write}\n')
   return ok_list
@@ -327,10 +557,17 @@ def is_cell_in_root(cell):
   else:
     return False
 
+filename: filedesc.py
+import os
+files = os.listdir()
+files_current = []
+for i in files:
+  if i.split('.')[-1] in ['py','txt']:
+    files_current.append(i)
+wrt_file = open('filedesc.out','w')
+for i in files_current:
+  rd_file = open(i,'r')
+  rd_ctnt = rd_file.readlines()
+  wrt_file.writelines(['filename: ' + i + '\n'] + rd_ctnt + ['\n'])
+wrt_file.close()
 
-def check_post(cell_name=CELLNAMEPREFIX + str(get_cell_idx())):
-  post_dir = os.listdir('../post')
-  if f'req_{cell_name}' in post_dir:
-    return True
-  else:
-    return False

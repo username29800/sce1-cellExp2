@@ -1,4 +1,4 @@
-import utils, sys, shutil, os, subprocess
+import utils, sys, shutil, os
 CELLNAMEPREFIX = utils.auto_find('status.txt', 'defaultname')
 
 #origin packager
@@ -36,7 +36,6 @@ def pack_comm(file_list):
     arc_name = f't_{cell_name}_{backup_number}'
     utils.one_pack_64(arc_name, file_list, False)
     shutil.copy(arc_name + '.zip', f'../post/{arc_name}.zip')
-    subprocess.call(['python', 'setup.py'])
 
 def main(backup = True):
     args = sys.argv[1]

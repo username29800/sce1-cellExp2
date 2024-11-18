@@ -126,7 +126,8 @@ def write_add_all_to_xll(al_file, str_write_list):
   return 0
 
 
-def list_add_to_xll(al_file, str_write):  # for internal use. 코드 내에서 list initializer로 사용
+def list_add_to_xll(
+    al_file, str_write):  # for internal use. 코드 내에서 list initializer로 사용
   ok_list = get_xll(al_file)
   ok_list.append(f'{str_write}\n')
   return ok_list
@@ -330,6 +331,7 @@ def is_cell_in_root(cell):
 
 def check_post(cell_name=CELLNAMEPREFIX + str(get_cell_idx())):
   post_dir = os.listdir('../post')
+  print(f'req_{cell_name}')
   if f'req_{cell_name}' in post_dir:
     return True
   else:
