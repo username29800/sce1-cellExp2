@@ -294,6 +294,14 @@ def load_from_org(config_file):
   shutil.rmtree(origin_filename[:-4])
   return 0
 
+def load_list_from_org(config_file, file_list):
+  origin_filename = auto_find(config_file, 'org')
+  unpack_org(origin_filename)
+  for i in file_list:
+    shutil.move(f'{origin_filename[:-4]}/{i}', i)
+  shutil.rmtree(origin_filename[:-4])
+  return 0
+
 def load_from_find(find):
   unpack_org(find)
   for i in os.listdir(find[:-4]):
