@@ -28,6 +28,7 @@ def wrtout():
     wrtstr += '\n'
     out_file.write(wrtstr)
     out_file.close()
+    utils.write_add_to_xll(out_name + cell_name + '.txt')
 
 # return output
 def outpost():
