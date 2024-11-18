@@ -26,3 +26,5 @@ defaultname = cell_t0_
 
 outcontent = positive
 // outcontent = a line of string to transmit when requested
+
+alsys = ../alsys.txt

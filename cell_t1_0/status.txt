@@ -21,11 +21,11 @@ util = utils.py
 out = out_
 // out = output filename prefix
 
-defaultname = cell_t0_
+defaultname = cell_t1_
 // defaultname = CELLNAMEPREFIX
 
 outcontent = positive
 // outcontent = a line of string to transmit when requested
 
-alsys = alsys.txt
+alsys = ../alsys.txt
 // alsys = system-wide allowlist

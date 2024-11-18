@@ -1,4 +1,3 @@
-__pycache__
 allow.txt
 div.py
 keepalive.py
@@ -8,3 +7,4 @@ packager.py
 setup.py
 status.txt
 utils.py
+__pycache__
