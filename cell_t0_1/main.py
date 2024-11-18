@@ -28,13 +28,15 @@ def wrtout():
     wrtstr += '\n'
     out_file.write(wrtstr)
     out_file.close()
+    al_file = utils.auto_find(config, 'al')
+    utils.write_add_to_xll(al_file, out_name + cell_name + '.txt')
 
 # return output
 def outpost():
     out_name = utils.auto_find(config, 'out')
     cell_num = utils.get_cell_idx()
     cell_name = CELLNAMEPREFIX + str(cell_num)
-    subprocess.call(['python', 'packager.py','tr', out_name + cell_name + '.txt'])
+    subprocess.call(['python', 'packager.py','td', out_name + cell_name + '.txt'])
 
 def main():
     # self sanity check

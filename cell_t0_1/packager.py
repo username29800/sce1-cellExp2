@@ -1,4 +1,4 @@
-import utils, sys, shutil, os
+import utils, sys, shutil, os, subprocess
 CELLNAMEPREFIX = utils.auto_find('status.txt', 'defaultname')
 
 #origin packager
@@ -36,6 +36,19 @@ def pack_comm(file_list):
     arc_name = f't_{cell_name}_{backup_number}'
     utils.one_pack_64(arc_name, file_list, False)
     shutil.copy(arc_name + '.zip', f'../post/{arc_name}.zip')
+    al_file = utils.auto_find('config.txt', 'al')
+    utils.write_add_to_xll(al_file, arc_name + '.zip')
+
+def pack_comm_raw(file_list):
+    backup_number = 0
+    files_current = os.listdir('../post/')
+    cell_name = CELLNAMEPREFIX + str(utils.get_cell_idx())
+    while f't_{cell_name}_{backup_number}' in files_current:
+        backup_number += 1
+    arc_name = f't_{cell_name}_{backup_number}'
+    os.mkdir('../post/' + arc_name)
+    for i in file_list:
+        shutil.copy2(i, f'../post/{arc_name}/{i}')
 
 def main(backup = True):
     args = sys.argv[1]
@@ -47,6 +60,8 @@ def main(backup = True):
         pack_pathogen(backup)
     elif args == 'tr': # file transmission
         pack_comm(sys.argv[2:])
+    elif args == 'td': # file transmission via directory
+        pack_comm_raw(sys.argv[2:])
 
 if len(sys.argv) > 2:
     if sys.argv[2] in ['1', 'True']:

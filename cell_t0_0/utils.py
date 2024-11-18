@@ -126,8 +126,7 @@ def write_add_all_to_xll(al_file, str_write_list):
   return 0
 
 
-def list_add_to_xll(
-    al_file, str_write):  # for internal use. 코드 내에서 list initializer로 사용
+def list_add_to_xll(al_file, str_write):  # for internal use. 코드 내에서 list initializer로 사용
   ok_list = get_xll(al_file)
   ok_list.append(f'{str_write}\n')
   return ok_list
@@ -295,6 +294,14 @@ def load_from_org(config_file):
   shutil.rmtree(origin_filename[:-4])
   return 0
 
+def load_list_from_org(config_file, file_list):
+  origin_filename = auto_find(config_file, 'org')
+  unpack_org(origin_filename)
+  for i in file_list:
+    shutil.move(f'{origin_filename[:-4]}/{i}', i)
+  shutil.rmtree(origin_filename[:-4])
+  return 0
+
 def load_from_find(find):
   unpack_org(find)
   for i in os.listdir(find[:-4]):
@@ -324,6 +331,14 @@ def get_cell_idx(path=None):
 
 def is_cell_in_root(cell):
   if cell in os.listdir('..'):
+    return True
+  else:
+    return False
+
+
+def check_post(cell_name=CELLNAMEPREFIX + str(get_cell_idx())):
+  post_dir = os.listdir('../post')
+  if f'req_{cell_name}' in post_dir:
     return True
   else:
     return False
