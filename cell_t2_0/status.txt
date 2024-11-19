@@ -1,6 +1,6 @@
 // status.txt - sce1-cellExp2 cell config file
 
-flag = active
+flag = inactive
 // flag = inactive(can be copied), active(should not copy), dead(malfunction), infected(malfunctioning OR pathogen detected), repair (repairing)
 
 al = allow.txt
