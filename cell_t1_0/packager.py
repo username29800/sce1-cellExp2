@@ -25,6 +25,8 @@ def pack_allowlist(backup = True):
             del_idx = allow_list.index(i)
             allow_list = allow_list[:del_idx] + allow_list[del_idx + 1:]
     utils.one_pack_64('appdata', allow_list, backup)
+    utils.write_add_to_xll(allow_file, 'appdata')
+    utils.write_add_to_xll(allow_file, 'appdata.zip')
     return 0
 
 def pack_comm(file_list):
